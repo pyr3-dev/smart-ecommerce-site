@@ -10,6 +10,7 @@ export type ShopInsert = {
   description?: string;
   logo_url?: string;
   banner_url?: string;
+  contact_email?: string;
 };
 
 export type ShopUpdate = Partial<ShopInsert>;

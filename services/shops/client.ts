@@ -9,7 +9,9 @@ export type Shop = {
   description: string | null;
   logo_url: string | null;
   banner_url: string | null;
-  status: string;
+  status: "pending" | "active" | "suspended";
+  verified: boolean;
+  contact_email: string | null;
   created_at: string;
   updated_at: string;
 };
