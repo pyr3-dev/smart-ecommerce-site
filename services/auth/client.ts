@@ -1,3 +1,4 @@
+// Browser-only. Call only from Client Components ('use client') — uses window.location.
 import { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { ServiceResult } from "@/services/types";
