@@ -1,46 +1,10 @@
 import { createClient } from "@/lib/supabase/client";
 import { ServiceResult } from "@/services/types";
+import { Tables } from "@/database.types";
 
-export type ShopDailyMetrics = {
-  id: string;
-  shop_id: string;
-  date: string;
-  total_revenue: number;
-  total_orders: number;
-  total_views: number;
-  unique_visitors: number;
-  conversion_rate: number | null;
-  avg_order_value: number | null;
-  return_rate: number | null;
-};
-
-export type ProductDailyMetrics = {
-  id: string;
-  product_id: string;
-  date: string;
-  views: number;
-  cart_adds: number;
-  orders: number;
-  revenue: number;
-  avg_rating: number | null;
-  stock_turnover_rate: number | null;
-};
-
-export type PlatformInsight = {
-  id: string;
-  generated_at: string;
-  insight_type:
-    | "trending_category"
-    | "top_performing_shop"
-    | "seasonal_trend"
-    | "price_opportunity"
-    | "demand_spike";
-  title: string;
-  summary: string | null;
-  data: Record<string, unknown>;
-  valid_until: string;
-  is_published: boolean;
-};
+export type ShopDailyMetrics = Tables<"shop_daily_metrics">;
+export type ProductDailyMetrics = Tables<"product_daily_metrics">;
+export type PlatformInsight = Tables<"platform_insights">;
 
 export async function getShopMetrics(
   shopId: string,

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { ServiceResult } from "@/services/types";
+import { Enums } from "@/database.types";
 
 export async function createSubscription(
   planId: string,

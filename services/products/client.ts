@@ -1,21 +1,8 @@
 import { createClient } from "@/lib/supabase/client";
 import { ServiceResult } from "@/services/types";
+import { Tables } from "@/database.types";
 
-export type Product = {
-  id: string;
-  shop_id: string;
-  category_id: string | null;
-  name: string;
-  slug: string;
-  description: string | null;
-  price: number;
-  compare_price: number | null;
-  stock_qty: number;
-  status: "draft" | "active" | "archived";
-  tags: string[];
-  created_at: string;
-  updated_at: string;
-};
+export type Product = Tables<"products">;
 
 export async function getProduct(
   productId: string,

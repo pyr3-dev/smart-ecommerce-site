@@ -3,23 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { ServiceResult } from "@/services/types";
+import { Enums, TablesInsert } from "@/database.types";
 
-export type OrderStatus =
-  | "pending"
-  | "paid"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled"
-  | "refunded";
-
-export type OrderInsert = {
-  shop_id: string;
-  total_amount: number;
-  shipping_address?: Record<string, unknown>;
-  shipping_fee?: number;
-  notes?: string;
-};
+export type OrderStatus = Enums<"order_status">;
+export type OrderInsert = Omit<TablesInsert<"orders">, "buyer_id">;
 
 export async function createOrder(
   data: OrderInsert,

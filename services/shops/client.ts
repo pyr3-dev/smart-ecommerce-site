@@ -1,20 +1,8 @@
 import { createClient } from "@/lib/supabase/client";
 import { ServiceResult } from "@/services/types";
+import { Tables } from "@/database.types";
 
-export type Shop = {
-  id: string;
-  owner_id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  logo_url: string | null;
-  banner_url: string | null;
-  status: "pending" | "active" | "suspended";
-  verified: boolean;
-  contact_email: string | null;
-  created_at: string;
-  updated_at: string;
-};
+export type Shop = Tables<"shops">;
 
 export async function getShop(shopId: string): Promise<ServiceResult<Shop>> {
   const supabase = createClient();

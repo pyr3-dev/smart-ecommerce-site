@@ -3,21 +3,21 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { ServiceResult } from "@/services/types";
+import { TablesInsert, TablesUpdate } from "@/database.types";
 
-export type ShopInsert = {
-  name: string;
-  slug: string;
-  description?: string;
-  logo_url?: string;
-  banner_url?: string;
-  contact_email?: string;
-};
-
-export type ShopUpdate = Partial<ShopInsert>;
+export type ShopInsert = Omit<TablesInsert<"shops">, "owner_id">;
+export type ShopUpdate = TablesUpdate<"shops">;
 
 export async function createShop(data: ShopInsert): Promise<ServiceResult<null>> {
   const supabase = await createClient();
-  const { error } = await supabase.from("shops").insert(data);
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) return { data: null, error: "Not authenticated" };
+  const { error } = await supabase
+    .from("shops")
+    .insert({ ...data, owner_id: user.id });
   if (error) return { data: null, error: error.message };
   revalidatePath("/", "layout");
   return { data: null, error: null };

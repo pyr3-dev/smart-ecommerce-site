@@ -1,19 +1,8 @@
 import { createClient } from "@/lib/supabase/client";
 import { ServiceResult } from "@/services/types";
+import { Tables } from "@/database.types";
 
-export type Order = {
-  id: string;
-  buyer_id: string;
-  shop_id: string;
-  status: "pending" | "paid" | "processing" | "shipped" | "delivered" | "cancelled" | "refunded";
-  total_amount: number;
-  shipping_fee: number;
-  shipping_address: Record<string, unknown>;
-  payment_ref: string | null;
-  notes: string | null;
-  created_at: string;
-  updated_at: string;
-};
+export type Order = Tables<"orders">;
 
 export async function getOrder(orderId: string): Promise<ServiceResult<Order>> {
   const supabase = createClient();
