@@ -42,6 +42,8 @@ export async function signOut(): Promise<ServiceResult<null>> {
   return { data: null, error: null };
 }
 
+// Returns the validated User (not a session object). Uses getUser() which re-validates
+// the JWT on every call — safe to call in Client Components.
 export async function getSession(): Promise<ServiceResult<User | null>> {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();

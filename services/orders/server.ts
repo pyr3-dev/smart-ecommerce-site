@@ -25,7 +25,14 @@ export async function createOrder(
   data: OrderInsert,
 ): Promise<ServiceResult<null>> {
   const supabase = await createClient();
-  const { error } = await supabase.from("orders").insert(data);
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) return { data: null, error: "Not authenticated" };
+  const { error } = await supabase
+    .from("orders")
+    .insert({ ...data, buyer_id: user.id });
   if (error) return { data: null, error: error.message };
   revalidatePath("/", "layout");
   return { data: null, error: null };

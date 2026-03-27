@@ -14,9 +14,17 @@ export async function createSubscription(
   } = await supabase.auth.getUser();
   if (userError || !user) return { data: null, error: "Not authenticated" };
 
+  const { data: plan, error: planError } = await supabase
+    .from("subscription_plans")
+    .select("interval")
+    .eq("id", planId)
+    .single();
+  if (planError || !plan) return { data: null, error: "Plan not found" };
+
   const now = new Date().toISOString();
+  const days = plan.interval === "yearly" ? 365 : 30;
   const periodEnd = new Date(
-    Date.now() + 30 * 24 * 60 * 60 * 1000,
+    Date.now() + days * 24 * 60 * 60 * 1000,
   ).toISOString();
 
   const { error } = await supabase.from("subscriptions").insert({
@@ -42,7 +50,8 @@ export async function cancelSubscription(): Promise<ServiceResult<null>> {
   const { error } = await supabase
     .from("subscriptions")
     .update({ status: "cancelled", cancelled_at: new Date().toISOString() })
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .in("status", ["trialing", "active"]);
   if (error) return { data: null, error: error.message };
   revalidatePath("/", "layout");
   return { data: null, error: null };
