@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface GroveLogoProps {
   className?: string;
@@ -19,7 +20,7 @@ export function GroveLogo({
 }: GroveLogoProps) {
   const { icon, text } = sizes[size];
   return (
-    <Link href="/" className={`flex items-center gap-2 ${className ?? ""}`}>
+    <Link href="/" aria-label="Grove — go to homepage" className={cn("flex items-center gap-2", className)}>
       <svg
         width={icon}
         height={icon}
@@ -47,7 +48,7 @@ export function GroveLogo({
       </svg>
       {showWordmark && (
         <span
-          className={`font-semibold tracking-[0.04em] text-[#2C2C2C] ${text}`}
+          className={`font-semibold tracking-[0.04em] text-grove-dark ${text}`}
         >
           grove
         </span>
