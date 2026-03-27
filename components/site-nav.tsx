@@ -31,7 +31,7 @@ export function SiteNav() {
         </Link>
         <Link
           href="/auth/sign-up"
-          className="text-xs font-medium text-grove-base bg-grove-dark px-4 py-2 rounded-[3px] hover:bg-[#3D3D35] transition-colors"
+          className="text-xs font-medium text-grove-base bg-grove-dark px-4 py-2 rounded-[3px] hover:bg-grove-dark-hover transition-colors"
         >
           Start selling
         </Link>

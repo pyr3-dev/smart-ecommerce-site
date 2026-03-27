@@ -17,7 +17,7 @@ export function Hero() {
       <div className="flex gap-3 items-center flex-wrap justify-center">
         <Link
           href="/auth/sign-up"
-          className="bg-grove-dark text-grove-base text-sm font-medium px-7 py-3 rounded-[3px] hover:bg-[#3D3D35] transition-colors"
+          className="bg-grove-dark text-grove-base text-sm font-medium px-7 py-3 rounded-[3px] hover:bg-grove-dark-hover transition-colors"
         >
           Start selling free
         </Link>

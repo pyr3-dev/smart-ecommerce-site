@@ -26,7 +26,7 @@ export function SellerCta() {
         </p>
         <Link
           href="/auth/sign-up"
-          className="inline-block bg-grove-dark text-grove-base text-sm font-medium px-7 py-3 rounded-[3px] hover:bg-[#3D3D35] transition-colors"
+          className="inline-block bg-grove-dark text-grove-base text-sm font-medium px-7 py-3 rounded-[3px] hover:bg-grove-dark-hover transition-colors"
         >
           Open your shop →
         </Link>
