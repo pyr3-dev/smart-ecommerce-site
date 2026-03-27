@@ -464,7 +464,7 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.profiles (id, username, full_name, avatar_url)
+  insert into public.profiles (id, username, full_name, avatar_url, role)
   values (
     new.id,
     coalesce(
@@ -472,7 +472,11 @@ begin
       split_part(new.email, '@', 1)
     ),
     coalesce(new.raw_user_meta_data ->> 'full_name', ''),
-    coalesce(new.raw_user_meta_data ->> 'avatar_url', '')
+    coalesce(new.raw_user_meta_data ->> 'avatar_url', ''),
+    coalesce(
+      (new.raw_user_meta_data ->> 'user_role')::public.user_role,
+      'buyer'::public.user_role
+    )
   );
   return new;
 end;

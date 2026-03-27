@@ -48,7 +48,7 @@ export function SignUpForm({
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
-          data: { role },
+          data: { user_role: role },
         },
       });
       if (error) throw error;
@@ -124,7 +124,7 @@ export function SignUpForm({
                     "py-2.5 rounded-[3px] text-xs capitalize transition-colors",
                     role === r
                       ? "bg-grove-base border border-grove-dark text-grove-dark font-medium"
-                      : "bg-grove-muted border border-transparent text-grove-text-muted hover:text-grove-dark font-normal"
+                      : "bg-grove-muted border border-transparent text-grove-text-muted hover:text-grove-dark font-normal",
                   )}
                 >
                   {r === "buyer" ? "Buyer" : "Seller"}
@@ -162,7 +162,10 @@ export function SignUpForm({
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => { setPassword(e.target.value); setError(null); }}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError(null);
+                  }}
                   className="bg-grove-muted border-transparent focus:border-grove-sage focus-visible:ring-0 focus-visible:ring-offset-0 rounded-[4px]"
                 />
                 {password.length > 0 && (
@@ -174,14 +177,15 @@ export function SignUpForm({
                           "h-[3px] flex-1 rounded-full transition-colors",
                           i <= passwordStrength
                             ? "bg-grove-sage"
-                            : "bg-grove-muted"
+                            : "bg-grove-muted",
                         )}
                       />
                     ))}
                   </div>
                 )}
                 <span className="sr-only" role="status" aria-live="polite">
-                  {password.length > 0 && `Password strength: ${passwordStrength} of 4`}
+                  {password.length > 0 &&
+                    `Password strength: ${passwordStrength} of 4`}
                 </span>
               </div>
               <div>
@@ -196,7 +200,10 @@ export function SignUpForm({
                   type="password"
                   required
                   value={repeatPassword}
-                  onChange={(e) => { setRepeatPassword(e.target.value); setError(null); }}
+                  onChange={(e) => {
+                    setRepeatPassword(e.target.value);
+                    setError(null);
+                  }}
                   className="bg-grove-muted border-transparent focus:border-grove-sage focus-visible:ring-0 focus-visible:ring-offset-0 rounded-[4px]"
                 />
               </div>
