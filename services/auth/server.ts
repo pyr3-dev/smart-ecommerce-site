@@ -32,6 +32,11 @@ export async function updatePassword(
   newPassword: string,
 ): Promise<ServiceResult<null>> {
   const supabase = await createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) return { data: null, error: "Not authenticated" };
   const { error } = await supabase.auth.updateUser({ password: newPassword });
   if (error) return { data: null, error: error.message };
   return { data: null, error: null };
