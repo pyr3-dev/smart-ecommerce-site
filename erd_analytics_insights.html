@@ -1,0 +1,133 @@
+
+<div id="erd3"></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+  },
+});
+const diagram = `erDiagram
+  USER_EVENTS {
+    uuid id PK
+    uuid user_id FK
+    text session_id
+    uuid shop_id FK
+    uuid product_id FK
+    event_type event_type
+    jsonb metadata
+    char ip_country
+    timestamptz created_at
+  }
+  STORE_DAILY_METRICS {
+    bigserial id PK
+    uuid shop_id FK
+    date date
+    numeric revenue
+    int order_count
+    numeric avg_order_value
+    int unique_visitors
+    numeric conversion_rate
+    numeric repeat_buyer_rate
+    int refund_count
+  }
+  PRODUCT_DAILY_METRICS {
+    bigserial id PK
+    uuid product_id FK
+    date date
+    int views
+    int cart_adds
+    int purchases
+    numeric revenue
+  }
+  STORE_INSIGHT_SCORES {
+    uuid id PK
+    uuid shop_id FK
+    numeric overall_score
+    numeric percentile
+    numeric revenue_score
+    numeric retention_score
+    numeric growth_score
+    jsonb strengths
+    jsonb weaknesses
+    jsonb recommendations
+    text model_version
+    timestamptz generated_at
+  }
+  PRODUCT_INSIGHTS {
+    uuid id PK
+    uuid product_id FK
+    numeric trend_score
+    numeric demand_forecast_30d
+    numeric price_recommendation
+    boolean is_trending
+    numeric competitor_avg_price
+    jsonb insights
+    text model_version
+    timestamptz generated_at
+  }
+  PLATFORM_INSIGHTS {
+    uuid id PK
+    insight_category category
+    text title
+    text summary
+    jsonb data
+    int min_plan_id FK
+    timestamptz generated_at
+    timestamptz expires_at
+  }
+  SHOPS {
+    uuid id PK
+    text name
+  }
+  PRODUCTS {
+    uuid id PK
+    text name
+  }
+  SUBSCRIPTION_PLANS {
+    serial id PK
+    text name
+  }
+
+  SHOPS ||--o{ USER_EVENTS : generates
+  PRODUCTS ||--o{ USER_EVENTS : generates
+  SHOPS ||--o{ STORE_DAILY_METRICS : aggregated_into
+  PRODUCTS ||--o{ PRODUCT_DAILY_METRICS : aggregated_into
+  SHOPS ||--o{ STORE_INSIGHT_SCORES : scored_by
+  PRODUCTS ||--o{ PRODUCT_INSIGHTS : analyzed_by
+  SUBSCRIPTION_PLANS ||--o{ PLATFORM_INSIGHTS : gates
+`;
+const { svg } = await mermaid.render('erd3-svg', diagram);
+document.getElementById('erd3').innerHTML = svg;
+document.querySelectorAll('#erd3 .node').forEach(node => {
+  const firstPath = node.querySelector('path[d]');
+  if (!firstPath) return;
+  const d = firstPath.getAttribute('d');
+  const nums = d.match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0], nums[2], nums[4], nums[6]];
+  const ys = [nums[1], nums[3], nums[5], nums[7]];
+  const x = Math.min(...xs), y = Math.min(...ys);
+  const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x); rect.setAttribute('y', y);
+  rect.setAttribute('width', w); rect.setAttribute('height', h);
+  rect.setAttribute('rx', '8');
+  for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+    if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+  }
+  firstPath.replaceWith(rect);
+});
+document.querySelectorAll('#erd3 .row-rect-odd path, #erd3 .row-rect-even path').forEach(p => {
+  p.setAttribute('stroke', 'none');
+});
+</script>

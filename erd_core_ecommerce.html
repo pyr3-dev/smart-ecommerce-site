@@ -1,0 +1,150 @@
+
+<style>
+#erd1 { padding: 4px 0; }
+</style>
+<div id="erd1"></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+  },
+});
+const diagram = `erDiagram
+  PROFILES {
+    uuid id PK
+    text username
+    text display_name
+    user_role role
+    char country_code
+    timestamptz created_at
+  }
+  SHOP_CATEGORIES {
+    serial id PK
+    text name
+    text slug
+  }
+  SHOPS {
+    uuid id PK
+    uuid owner_id FK
+    int category_id FK
+    text name
+    text slug
+    shop_status status
+    numeric avg_rating
+    int total_sales
+  }
+  PRODUCT_CATEGORIES {
+    serial id PK
+    text name
+    text slug
+    int parent_id FK
+  }
+  PRODUCTS {
+    uuid id PK
+    uuid shop_id FK
+    text name
+    numeric base_price
+    numeric compare_price
+    int stock_qty
+    product_status status
+    numeric avg_rating
+    int total_sold
+  }
+  PRODUCT_IMAGES {
+    uuid id PK
+    uuid product_id FK
+    text url
+    smallint sort_order
+  }
+  PRODUCT_VARIANTS {
+    uuid id PK
+    uuid product_id FK
+    text label
+    numeric price_delta
+    int stock_qty
+  }
+  PRODUCT_CATEGORY_MAP {
+    uuid product_id FK
+    int category_id FK
+  }
+  ORDERS {
+    uuid id PK
+    uuid buyer_id FK
+    uuid shop_id FK
+    order_status status
+    numeric subtotal
+    numeric shipping_fee
+    numeric total
+    jsonb shipping_addr
+    timestamptz paid_at
+    timestamptz delivered_at
+  }
+  ORDER_ITEMS {
+    uuid id PK
+    uuid order_id FK
+    uuid product_id FK
+    uuid variant_id FK
+    int quantity
+    numeric unit_price
+    numeric subtotal
+  }
+  REVIEWS {
+    uuid id PK
+    uuid buyer_id FK
+    uuid product_id FK
+    uuid order_id FK
+    smallint rating
+    text body
+  }
+
+  PROFILES ||--o{ SHOPS : owns
+  PROFILES ||--o{ ORDERS : places
+  PROFILES ||--o{ REVIEWS : writes
+  SHOP_CATEGORIES ||--o{ SHOPS : classifies
+  SHOPS ||--o{ PRODUCTS : lists
+  PRODUCTS ||--o{ PRODUCT_IMAGES : has
+  PRODUCTS ||--o{ PRODUCT_VARIANTS : has
+  PRODUCTS }o--o{ PRODUCT_CATEGORIES : "mapped via"
+  PRODUCT_CATEGORY_MAP }o--|| PRODUCTS : ""
+  PRODUCT_CATEGORY_MAP }o--|| PRODUCT_CATEGORIES : ""
+  ORDERS ||--|{ ORDER_ITEMS : contains
+  ORDER_ITEMS }o--|| PRODUCTS : references
+  ORDER_ITEMS }o--o| PRODUCT_VARIANTS : uses
+  REVIEWS }o--|| PRODUCTS : rates
+  REVIEWS }o--|| ORDERS : from
+`;
+const { svg } = await mermaid.render('erd1-svg', diagram);
+document.getElementById('erd1').innerHTML = svg;
+document.querySelectorAll('#erd1 .node').forEach(node => {
+  const firstPath = node.querySelector('path[d]');
+  if (!firstPath) return;
+  const d = firstPath.getAttribute('d');
+  const nums = d.match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0], nums[2], nums[4], nums[6]];
+  const ys = [nums[1], nums[3], nums[5], nums[7]];
+  const x = Math.min(...xs), y = Math.min(...ys);
+  const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x); rect.setAttribute('y', y);
+  rect.setAttribute('width', w); rect.setAttribute('height', h);
+  rect.setAttribute('rx', '8');
+  for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+    if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+  }
+  firstPath.replaceWith(rect);
+});
+document.querySelectorAll('#erd1 .row-rect-odd path, #erd1 .row-rect-even path').forEach(p => {
+  p.setAttribute('stroke', 'none');
+});
+</script>
