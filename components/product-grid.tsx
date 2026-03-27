@@ -29,28 +29,30 @@ export function ProductGrid() {
   return (
     <section className="px-8 pb-12">
       <div className="flex items-center gap-4 mb-5">
-        <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-[#6B6B5E] shrink-0">
+        <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-grove-text-muted shrink-0">
           Featured from the marketplace
         </p>
-        <div className="flex-1 h-px bg-[#2C2C2C]/10" />
+        <div className="flex-1 h-px bg-grove-dark/10" />
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {FEATURED_PRODUCTS.map((product) => (
           <div
             key={product.name}
-            className="rounded-md overflow-hidden bg-[#EAE7E0]"
+            className="rounded-md overflow-hidden bg-grove-muted"
           >
             <div
+              role="img"
+              aria-label={product.name}
               className={`aspect-[3/4] bg-gradient-to-br ${product.bg}`}
             />
             <div className="p-3">
-              <p className="text-[9px] font-medium tracking-[0.1em] uppercase text-[#7C9A78] mb-1">
+              <p className="text-[9px] font-medium tracking-[0.1em] uppercase text-grove-sage mb-1">
                 {product.shop}
               </p>
-              <p className="text-xs font-normal text-[#2C2C2C] mb-0.5">
+              <p className="text-xs font-normal text-grove-dark mb-0.5">
                 {product.name}
               </p>
-              <p className="text-xs font-medium text-[#2C2C2C]">
+              <p className="text-xs font-medium text-grove-dark">
                 {product.price}
               </p>
             </div>

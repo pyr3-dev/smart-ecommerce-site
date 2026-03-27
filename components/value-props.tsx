@@ -66,14 +66,14 @@ const VALUES = [
 
 export function ValueProps() {
   return (
-    <section className="bg-[#2C2C2C] px-8 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+    <section className="bg-grove-dark px-8 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
       {VALUES.map(({ Icon, title, desc }) => (
         <div key={title}>
           <Icon />
-          <h3 className="text-[15px] font-medium text-[#F5F2ED] mt-4 mb-2">
+          <h3 className="text-[15px] font-medium text-grove-base mt-4 mb-2">
             {title}
           </h3>
-          <p className="text-[13px] font-light text-[#A8A89A] leading-relaxed">
+          <p className="text-[13px] font-light text-grove-text-dim leading-relaxed">
             {desc}
           </p>
         </div>

@@ -3,35 +3,35 @@ import { GroveLogo } from "@/components/grove-logo";
 
 export function SiteNav() {
   return (
-    <nav className="w-full flex justify-between items-center px-8 py-4 border-b border-[#2C2C2C]/[0.08] bg-[#F5F2ED]">
+    <nav className="w-full flex justify-between items-center px-8 py-4 border-b border-grove-dark/[0.08] bg-grove-base">
       <GroveLogo />
-      <div className="hidden md:flex gap-7 text-sm font-normal text-[#6B6B5E]">
+      <div className="hidden md:flex gap-7 text-sm font-normal text-grove-text-muted">
         <Link
           href="/marketplace"
-          className="hover:text-[#2C2C2C] transition-colors"
+          className="hover:text-grove-dark transition-colors"
         >
           Marketplace
         </Link>
         <Link
           href="/sellers"
-          className="hover:text-[#2C2C2C] transition-colors"
+          className="hover:text-grove-dark transition-colors"
         >
           Sellers
         </Link>
-        <Link href="/about" className="hover:text-[#2C2C2C] transition-colors">
+        <Link href="/about" className="hover:text-grove-dark transition-colors">
           About
         </Link>
       </div>
       <div className="flex gap-3 items-center">
         <Link
           href="/auth/login"
-          className="text-xs font-normal text-[#2C2C2C] px-4 py-2 border border-[#2C2C2C]/25 rounded-[3px] hover:border-[#2C2C2C]/50 transition-colors"
+          className="text-xs font-normal text-grove-dark px-4 py-2 border border-grove-dark/25 rounded-[3px] hover:border-grove-dark/50 transition-colors"
         >
           Sign in
         </Link>
         <Link
           href="/auth/sign-up"
-          className="text-xs font-medium text-[#F5F2ED] bg-[#2C2C2C] px-4 py-2 rounded-[3px] hover:bg-[#3D3D35] transition-colors"
+          className="text-xs font-medium text-grove-base bg-grove-dark px-4 py-2 rounded-[3px] hover:bg-[#3D3D35] transition-colors"
         >
           Start selling
         </Link>
