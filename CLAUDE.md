@@ -9,13 +9,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-pnpm dev          # Start development server
-pnpm build        # Production build
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
+pnpm dev      # Start development server (just this — no Docker needed)
+pnpm build    # Production build
+pnpm start    # Start production server
+pnpm lint     # Run ESLint
 
-# Docker (full self-hosted Supabase stack)
-docker compose up -d   # Start all services (Postgres, Auth, API Gateway, Next.js, etc.)
+# Docker (Next.js only — Supabase backend is cloud-hosted)
+docker compose up -d --build   # Build and start the Next.js production container
 ```
 
 No test framework is configured in this project.
@@ -24,8 +24,8 @@ No test framework is configured in this project.
 
 ### Stack
 - **Next.js** (latest) with App Router and React 19
-- **Supabase** (self-hosted via Docker Compose) for database, auth, storage, and realtime
-- **PostgreSQL 15** with Row-Level Security as the primary data store
+- **Supabase Cloud** (supabase.com) for database, auth, storage, and realtime — no local backend needed
+- **PostgreSQL 15** (managed by Supabase) with Row-Level Security as the primary data store
 - **TypeScript** with strict mode
 - **Tailwind CSS** + **shadcn/ui** for UI components
 - **pnpm** as the package manager
@@ -44,7 +44,7 @@ Authentication uses `@supabase/ssr` for cookie-based sessions. The critical flow
 
 ### Database Schema
 
-The schema (`supabase/migrations/schema.sql`) is organized into four domains:
+The schema (`schema.sql`) is organized into four domains:
 
 - **Core ecommerce**: `profiles`, `shops`, `products`, `product_images`, `product_variants`, `product_categories`, `orders`, `order_items`, `reviews`
 - **Subscriptions**: `subscription_plans`, `user_subscriptions`, `subscription_invoices`
@@ -74,6 +74,6 @@ Dark mode is provided by `next-themes` configured in the root layout.
 
 ### Deployment
 
-- **Docker Compose**: Full self-hosted stack with Supabase services (GoTrue, PostgREST, Realtime, Storage, Kong gateway, Studio dashboard), PostgreSQL, Redis, and Next.js
-- **Vercel**: Supported — the Next.js app is Vercel-compatible
-- **Standalone output**: `next.config.ts` sets `output: "standalone"` for the Docker image
+- **Vercel** (recommended): Zero-config. Set the three env vars (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) in the Vercel dashboard.
+- **Docker**: `docker compose up -d --build` runs just the Next.js container. Supabase stays on cloud.
+- **Standalone output**: `next.config.ts` sets `output: "standalone"` for the Docker image.
