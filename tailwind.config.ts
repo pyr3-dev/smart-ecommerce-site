@@ -55,6 +55,7 @@ export default {
           base: "var(--grove-bg-base)",
           muted: "var(--grove-bg-muted)",
           dark: "var(--grove-bg-dark)",
+          "dark-hover": "var(--grove-dark-hover)",
           sage: "var(--grove-sage)",
           sand: "var(--grove-sand)",
           "text-muted": "var(--grove-text-muted)",

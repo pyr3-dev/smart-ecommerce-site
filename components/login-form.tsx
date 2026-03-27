@@ -72,7 +72,7 @@ export function LoginForm({
           <div className="grid grid-cols-2 gap-1.5">
             <div className="aspect-square rounded-[4px] bg-gradient-to-br from-[#D4C5A9] to-[#C4B49A]" />
             <div className="aspect-square rounded-[4px] bg-gradient-to-br from-[#7C9A78] to-[#5C7A58]" />
-            <div className="aspect-square rounded-[4px] bg-[#3D3D35]" />
+            <div className="aspect-square rounded-[4px] bg-grove-dark-hover" />
             <div className="aspect-square rounded-[4px] bg-gradient-to-br from-[#B8A898] to-[#A09080]" />
           </div>
         </div>
@@ -136,7 +136,7 @@ export function LoginForm({
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-grove-dark text-grove-base text-sm font-medium py-3 rounded-[3px] hover:bg-[#3D3D35] transition-colors disabled:opacity-50 mt-2"
+                className="w-full bg-grove-dark text-grove-base text-sm font-medium py-3 rounded-[3px] hover:bg-grove-dark-hover transition-colors disabled:opacity-50 mt-2"
               >
                 {isLoading ? "Signing in…" : "Sign in →"}
               </button>
