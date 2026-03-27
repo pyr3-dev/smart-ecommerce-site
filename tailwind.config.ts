@@ -51,6 +51,15 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        grove: {
+          base: "#F5F2ED",
+          muted: "#EAE7E0",
+          dark: "#2C2C2C",
+          sage: "#7C9A78",
+          sand: "#D4C5A9",
+          "text-muted": "#6B6B5E",
+          "text-dim": "#A8A89A",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
