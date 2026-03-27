@@ -118,6 +118,7 @@ export function SignUpForm({
                 <button
                   key={r}
                   type="button"
+                  aria-pressed={role === r}
                   onClick={() => setRole(r)}
                   className={cn(
                     "py-2.5 rounded-[3px] text-xs capitalize transition-colors",
@@ -126,7 +127,7 @@ export function SignUpForm({
                       : "bg-grove-muted border border-transparent text-grove-text-muted hover:text-grove-dark font-normal"
                   )}
                 >
-                  {r === "buyer" ? "🛍 Buyer" : "🏪 Seller"}
+                  {r === "buyer" ? "Buyer" : "Seller"}
                 </button>
               ))}
             </div>
@@ -161,7 +162,7 @@ export function SignUpForm({
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => { setPassword(e.target.value); setError(null); }}
                   className="bg-grove-muted border-transparent focus:border-grove-sage focus-visible:ring-0 focus-visible:ring-offset-0 rounded-[4px]"
                 />
                 {password.length > 0 && (
@@ -179,6 +180,9 @@ export function SignUpForm({
                     ))}
                   </div>
                 )}
+                <span className="sr-only" role="status" aria-live="polite">
+                  {password.length > 0 && `Password strength: ${passwordStrength} of 4`}
+                </span>
               </div>
               <div>
                 <label
@@ -192,7 +196,7 @@ export function SignUpForm({
                   type="password"
                   required
                   value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
+                  onChange={(e) => { setRepeatPassword(e.target.value); setError(null); }}
                   className="bg-grove-muted border-transparent focus:border-grove-sage focus-visible:ring-0 focus-visible:ring-offset-0 rounded-[4px]"
                 />
               </div>
